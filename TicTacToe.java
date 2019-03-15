@@ -4,34 +4,34 @@
  */
 import java.util.*; 
 public class TicTacToe {
-    //constants
+    // Constants
     public static final char PLAYER_X = 'X';
     public static final char PLAYER_O = 'O';
     
-    //instance variables
+    // Instance variables
     private String xName = "";
     private String oName = "";
     private char[] board = new char[10];
     private int moveCount = 0;
     
-    //constructor
+    // Two-argument constructor
     public TicTacToe(String xName, String oName) {
         this.xName = xName;
         this.oName = oName;
     }
 
-    //no-argument constructor
+    // No-argument constructor
     public TicTacToe() {
         xName = "Player X";
         oName = "Player O";
     }
 
-    //getter
+    // Getter
     public int getMoveCount() {
         return moveCount;
     }
     
-    //method to initialize board
+    // Method to initialize board
     public void initializeBoard() {
         moveCount = 0;
         board[0] = '0';
@@ -46,11 +46,11 @@ public class TicTacToe {
         board[9] = '9';
     }
     
-    //method to take a turn
+    // Method to take a turn
     public void takeATurn(Scanner keyboard, char player) {
-        //create generic string labelled name which can be used for both users
+        // Create generic string labelled name which can be used for both users
         String name = "";
-        //determine which user is playing this turn
+        // Determine which user is playing this turn
         if (player == PLAYER_X) {
             name = xName;
         } else {
@@ -58,42 +58,43 @@ public class TicTacToe {
         }
         System.out.println();
 
-        //display the updated board
+        // Display the updated board
         displayBoard();
         System.out.println();
 
-        //create response variable and initialize to -1 so user receives unique message first time through do-while loop
+        // Create response variable and initialize to -1 so user receives unique message first time through do-while loop
         int response = -1;
-        //outer loop to validate user response as a valid move
+        // Outer loop to validate user response as a valid move
         do {
-            //message for user on first time through outer loop
+            // Message for user on first time through outer loop
             if (response == -1) {
                 System.out.print("Where would you like to play, " + name + "? ");
             } 
-            //message for user if it is not their first time through outer validation loop
+            // Message for user if it is not their first time through outer validation loop
             else {
                 System.out.print("The position you selected is not an open position on the board. " + name + ", please choose an open position on the board. ");
             }
-            //inner loop to validate user response as an integer
+            // Inner loop to validate user response as an integer
             while (true) {
                 if (keyboard.hasNextInt()) {
-                    //capture user response in response variable
+                    // Capture user response in response variable
                     response = Math.abs(keyboard.nextInt());
+                    // Flush the buffer from the Scanner
                     keyboard.nextLine();
                     break;
                 } else {
                     System.out.println("I'm sorry, but the input you provided is not an integer. Please enter an open position on the board where you would like to play, " + name + ". ");
-                    //flush the buffer from the Scanner
+                    // Flush the buffer from the Scanner
                     keyboard.nextLine();
                 }
             }
         } while (!validMove(response));
-        //allow player to make the move which was validated above
+        // Allow player to make the move which was validated above
         board[response] = player;
         moveCount++;
     }
     
-    //method that returns true if there is a winner
+    // Method that returns true if there is a winner
     public boolean isWinner(char player) {
         if (board[1] == player && board[2] == player && board[3] == player) {
             return true;
@@ -119,11 +120,11 @@ public class TicTacToe {
         if (board[3] == player && board[5] == player && board[7] == player) {
             return true;
         }
-        //return false if no winner yet
+        // Return false if no winner yet
         return false;
     }
     
-    //method to display updated board for users
+    // Method to display updated board for users
     public void displayBoard() {
         System.out.println();
         System.out.println(" " + board[1] + " | " + board[2] + " | " + board[3]);
@@ -133,28 +134,28 @@ public class TicTacToe {
         System.out.println(" " + board[7] + " | " + board[8] + " | " + board[9]);
     }
     
-    //method which validates user choice as an open position on the board
+    // Method which validates user choice as an open position on the board
     private boolean validMove(int spot) {
         if (spot >= 1 && spot <= 9 && board[spot] != PLAYER_X && board[spot] != PLAYER_O) {
-            //return true if valid move
+            // Return true if valid move
             return true;
         } else {
-            //return false if invalid move
+            // Return false if invalid move
             return false;
         }
     }
     
-    //method to display results at the end of game
+    // Method to display results at the end of game
     public void displayResults() {
         if (isWinner(PLAYER_X)) {
             displayBoard();
             System.out.println();
             System.out.println("CONGRATULATIONS " + xName + " YOU WON!");
-        } else if(isWinner(PLAYER_O)) {
+        } else if (isWinner(PLAYER_O)) {
             displayBoard();
             System.out.println();
             System.out.println("CONGRATULATIONS " + oName + " YOU WON!");
-        } else if(moveCount == 9) {
+        } else if (moveCount == 9) {
             displayBoard();
             System.out.println();
             System.out.println("The game is a tie. - The CAT won.");
